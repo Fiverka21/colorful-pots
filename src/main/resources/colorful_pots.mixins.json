@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "com.fiverka.colorfulpots.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"DecoratedPotBlockEntityMixin",
+		"SmithingTransformRecipeMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

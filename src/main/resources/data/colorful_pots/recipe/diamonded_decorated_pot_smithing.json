@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:smithing_transform",
+	"base": "minecraft:decorated_pot",
+	"addition": "minecraft:diamond",
+	"result": {
+		"id": "minecraft:decorated_pot",
+		"components": {
+			"colorful_pots:diamonded": true
+		}
+	}
+}

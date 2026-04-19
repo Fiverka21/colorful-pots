@@ -137,6 +137,78 @@ public final class ColorfulPotsDataComponents {
 			.build()
 	);
 
+	public static final DataComponentType<Boolean> IRONED = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "ironed"),
+		DataComponentType.<Boolean>builder()
+			.persistent(Codec.BOOL)
+			.networkSynchronized(ByteBufCodecs.BOOL)
+			.build()
+	);
+
+	public static final DataComponentType<PotDecorations> IRONED_DECORATIONS = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "ironed_decorations"),
+		DataComponentType.<PotDecorations>builder()
+			.persistent(PotDecorations.CODEC)
+			.networkSynchronized(PotDecorations.STREAM_CODEC)
+			.build()
+	);
+
+	public static final DataComponentType<Boolean> QUARTZED = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "quartzed"),
+		DataComponentType.<Boolean>builder()
+			.persistent(Codec.BOOL)
+			.networkSynchronized(ByteBufCodecs.BOOL)
+			.build()
+	);
+
+	public static final DataComponentType<PotDecorations> QUARTZED_DECORATIONS = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "quartzed_decorations"),
+		DataComponentType.<PotDecorations>builder()
+			.persistent(PotDecorations.CODEC)
+			.networkSynchronized(PotDecorations.STREAM_CODEC)
+			.build()
+	);
+
+	public static final DataComponentType<Boolean> LAPISED = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "lapised"),
+		DataComponentType.<Boolean>builder()
+			.persistent(Codec.BOOL)
+			.networkSynchronized(ByteBufCodecs.BOOL)
+			.build()
+	);
+
+	public static final DataComponentType<PotDecorations> LAPISED_DECORATIONS = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "lapised_decorations"),
+		DataComponentType.<PotDecorations>builder()
+			.persistent(PotDecorations.CODEC)
+			.networkSynchronized(PotDecorations.STREAM_CODEC)
+			.build()
+	);
+
+	public static final DataComponentType<Boolean> NETHERITED = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "netherited"),
+		DataComponentType.<Boolean>builder()
+			.persistent(Codec.BOOL)
+			.networkSynchronized(ByteBufCodecs.BOOL)
+			.build()
+	);
+
+	public static final DataComponentType<PotDecorations> NETHERITED_DECORATIONS = Registry.register(
+		BuiltInRegistries.DATA_COMPONENT_TYPE,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "netherited_decorations"),
+		DataComponentType.<PotDecorations>builder()
+			.persistent(PotDecorations.CODEC)
+			.networkSynchronized(PotDecorations.STREAM_CODEC)
+			.build()
+	);
+
 	private ColorfulPotsDataComponents() {
 	}
 
@@ -170,5 +242,21 @@ public final class ColorfulPotsDataComponents {
 
 	public static boolean isRedstoned(ItemStack stack) {
 		return stack.getOrDefault(REDSTONED, false);
+	}
+
+	public static boolean isIroned(ItemStack stack) {
+		return stack.getOrDefault(IRONED, false);
+	}
+
+	public static boolean isQuartzed(ItemStack stack) {
+		return stack.getOrDefault(QUARTZED, false);
+	}
+
+	public static boolean isLapised(ItemStack stack) {
+		return stack.getOrDefault(LAPISED, false);
+	}
+
+	public static boolean isNetherited(ItemStack stack) {
+		return stack.getOrDefault(NETHERITED, false);
 	}
 }

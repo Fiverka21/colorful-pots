@@ -58,6 +58,18 @@ public abstract class DecoratedPotRendererMixin {
 	private static final int COLORFUL_POTS_COATING_REDSTONE = 6;
 
 	@Unique
+	private static final int COLORFUL_POTS_COATING_IRON = 7;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_QUARTZ = 8;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_LAPIS = 9;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_NETHERITE = 10;
+
+	@Unique
 	private static final Material COLORFUL_POTS_DIAMOND_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
 		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/diamond_base")
@@ -97,6 +109,30 @@ public abstract class DecoratedPotRendererMixin {
 	private static final Material COLORFUL_POTS_REDSTONE_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
 		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/redstone_base")
+	);
+
+	@Unique
+	private static final Material COLORFUL_POTS_IRON_SIDE_MATERIAL = new Material(
+		Sheets.DECORATED_POT_SHEET,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/iron_base")
+	);
+
+	@Unique
+	private static final Material COLORFUL_POTS_QUARTZ_SIDE_MATERIAL = new Material(
+		Sheets.DECORATED_POT_SHEET,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/quartz_base")
+	);
+
+	@Unique
+	private static final Material COLORFUL_POTS_LAPIS_SIDE_MATERIAL = new Material(
+		Sheets.DECORATED_POT_SHEET,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/lapis_base")
+	);
+
+	@Unique
+	private static final Material COLORFUL_POTS_NETHERITE_SIDE_MATERIAL = new Material(
+		Sheets.DECORATED_POT_SHEET,
+		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/netherite_base")
 	);
 
 	@Shadow
@@ -154,7 +190,11 @@ public abstract class DecoratedPotRendererMixin {
 		boolean emeralded,
 		boolean amethysted,
 		boolean resined,
-		boolean redstoned
+		boolean redstoned,
+		boolean ironed,
+		boolean quartzed,
+		boolean lapised,
+		boolean netherited
 	) {
 		int coating = COLORFUL_POTS_COATING_NONE;
 		int count = 0;
@@ -187,6 +227,22 @@ public abstract class DecoratedPotRendererMixin {
 			coating = COLORFUL_POTS_COATING_REDSTONE;
 			count++;
 		}
+		if (ironed) {
+			coating = COLORFUL_POTS_COATING_IRON;
+			count++;
+		}
+		if (quartzed) {
+			coating = COLORFUL_POTS_COATING_QUARTZ;
+			count++;
+		}
+		if (lapised) {
+			coating = COLORFUL_POTS_COATING_LAPIS;
+			count++;
+		}
+		if (netherited) {
+			coating = COLORFUL_POTS_COATING_NETHERITE;
+			count++;
+		}
 
 		return count == 1 ? coating : COLORFUL_POTS_COATING_NONE;
 	}
@@ -200,7 +256,11 @@ public abstract class DecoratedPotRendererMixin {
 			access.colorfulPots$isEmeralded(),
 			access.colorfulPots$isAmethysted(),
 			access.colorfulPots$isResined(),
-			access.colorfulPots$isRedstoned()
+			access.colorfulPots$isRedstoned(),
+			access.colorfulPots$isIroned(),
+			access.colorfulPots$isQuartzed(),
+			access.colorfulPots$isLapised(),
+			access.colorfulPots$isNetherited()
 		);
 	}
 
@@ -214,6 +274,10 @@ public abstract class DecoratedPotRendererMixin {
 			case COLORFUL_POTS_COATING_AMETHYST -> COLORFUL_POTS_AMETHYST_SIDE_MATERIAL;
 			case COLORFUL_POTS_COATING_RESIN -> COLORFUL_POTS_RESIN_SIDE_MATERIAL;
 			case COLORFUL_POTS_COATING_REDSTONE -> COLORFUL_POTS_REDSTONE_SIDE_MATERIAL;
+			case COLORFUL_POTS_COATING_IRON -> COLORFUL_POTS_IRON_SIDE_MATERIAL;
+			case COLORFUL_POTS_COATING_QUARTZ -> COLORFUL_POTS_QUARTZ_SIDE_MATERIAL;
+			case COLORFUL_POTS_COATING_LAPIS -> COLORFUL_POTS_LAPIS_SIDE_MATERIAL;
+			case COLORFUL_POTS_COATING_NETHERITE -> COLORFUL_POTS_NETHERITE_SIDE_MATERIAL;
 			default -> null;
 		};
 	}
@@ -239,6 +303,10 @@ public abstract class DecoratedPotRendererMixin {
 		access.colorfulPots$setAmethysted(coating == COLORFUL_POTS_COATING_AMETHYST);
 		access.colorfulPots$setResined(coating == COLORFUL_POTS_COATING_RESIN);
 		access.colorfulPots$setRedstoned(coating == COLORFUL_POTS_COATING_REDSTONE);
+		access.colorfulPots$setIroned(coating == COLORFUL_POTS_COATING_IRON);
+		access.colorfulPots$setQuartzed(coating == COLORFUL_POTS_COATING_QUARTZ);
+		access.colorfulPots$setLapised(coating == COLORFUL_POTS_COATING_LAPIS);
+		access.colorfulPots$setNetherited(coating == COLORFUL_POTS_COATING_NETHERITE);
 		this.colorfulPots$lastExtractedDecorations = blockEntity.getDecorations();
 	}
 

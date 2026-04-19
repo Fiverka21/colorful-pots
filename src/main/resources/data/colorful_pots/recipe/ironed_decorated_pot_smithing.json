@@ -1,18 +1,18 @@
 {
 	"type": "minecraft:smithing_transform",
 	"base": "minecraft:decorated_pot",
-	"addition": "minecraft:copper_ingot",
+	"addition": "minecraft:iron_ingot",
 	"result": {
 		"id": "minecraft:decorated_pot",
 		"components": {
-			"colorful_pots:coppered": true,
+			"colorful_pots:ironed": true,
 			"colorful_pots:diamonded": false,
 			"colorful_pots:golded": false,
+			"colorful_pots:coppered": false,
 			"colorful_pots:emeralded": false,
 			"colorful_pots:amethysted": false,
 			"colorful_pots:resined": false,
 			"colorful_pots:redstoned": false,
-			"colorful_pots:ironed": false,
 			"colorful_pots:quartzed": false,
 			"colorful_pots:lapised": false,
 			"colorful_pots:netherited": false

@@ -29,6 +29,18 @@ public abstract class DecoratedPotRenderStateMixin implements DiamondPotAccess {
 	private boolean colorfulPots$redstoned;
 
 	@Unique
+	private boolean colorfulPots$ironed;
+
+	@Unique
+	private boolean colorfulPots$quartzed;
+
+	@Unique
+	private boolean colorfulPots$lapised;
+
+	@Unique
+	private boolean colorfulPots$netherited;
+
+	@Unique
 	private void colorfulPots$clearAllCoatings() {
 		this.colorfulPots$diamonded = false;
 		this.colorfulPots$golded = false;
@@ -37,6 +49,10 @@ public abstract class DecoratedPotRenderStateMixin implements DiamondPotAccess {
 		this.colorfulPots$amethysted = false;
 		this.colorfulPots$resined = false;
 		this.colorfulPots$redstoned = false;
+		this.colorfulPots$ironed = false;
+		this.colorfulPots$quartzed = false;
+		this.colorfulPots$lapised = false;
+		this.colorfulPots$netherited = false;
 	}
 
 	@Override
@@ -128,5 +144,57 @@ public abstract class DecoratedPotRenderStateMixin implements DiamondPotAccess {
 			this.colorfulPots$clearAllCoatings();
 		}
 		this.colorfulPots$redstoned = redstoned;
+	}
+
+	@Override
+	public boolean colorfulPots$isIroned() {
+		return this.colorfulPots$ironed;
+	}
+
+	@Override
+	public void colorfulPots$setIroned(boolean ironed) {
+		if (ironed) {
+			this.colorfulPots$clearAllCoatings();
+		}
+		this.colorfulPots$ironed = ironed;
+	}
+
+	@Override
+	public boolean colorfulPots$isQuartzed() {
+		return this.colorfulPots$quartzed;
+	}
+
+	@Override
+	public void colorfulPots$setQuartzed(boolean quartzed) {
+		if (quartzed) {
+			this.colorfulPots$clearAllCoatings();
+		}
+		this.colorfulPots$quartzed = quartzed;
+	}
+
+	@Override
+	public boolean colorfulPots$isLapised() {
+		return this.colorfulPots$lapised;
+	}
+
+	@Override
+	public void colorfulPots$setLapised(boolean lapised) {
+		if (lapised) {
+			this.colorfulPots$clearAllCoatings();
+		}
+		this.colorfulPots$lapised = lapised;
+	}
+
+	@Override
+	public boolean colorfulPots$isNetherited() {
+		return this.colorfulPots$netherited;
+	}
+
+	@Override
+	public void colorfulPots$setNetherited(boolean netherited) {
+		if (netherited) {
+			this.colorfulPots$clearAllCoatings();
+		}
+		this.colorfulPots$netherited = netherited;
 	}
 }

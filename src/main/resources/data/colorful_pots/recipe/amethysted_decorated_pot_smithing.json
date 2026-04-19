@@ -11,7 +11,11 @@
 			"colorful_pots:coppered": false,
 			"colorful_pots:emeralded": false,
 			"colorful_pots:resined": false,
-			"colorful_pots:redstoned": false
+			"colorful_pots:redstoned": false,
+			"colorful_pots:ironed": false,
+			"colorful_pots:quartzed": false,
+			"colorful_pots:lapised": false,
+			"colorful_pots:netherited": false
 		}
 	}
 }

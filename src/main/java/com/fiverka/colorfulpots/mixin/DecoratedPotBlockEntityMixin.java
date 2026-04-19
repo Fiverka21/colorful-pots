@@ -47,6 +47,18 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	private static final int COLORFUL_POTS_COATING_REDSTONE = 6;
 
 	@Unique
+	private static final int COLORFUL_POTS_COATING_IRON = 7;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_QUARTZ = 8;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_LAPIS = 9;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_NETHERITE = 10;
+
+	@Unique
 	private static final String COLORFUL_POTS_DIAMONDED_TAG = "colorful_pots_diamonded";
 
 	@Unique
@@ -68,6 +80,18 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	private static final String COLORFUL_POTS_REDSTONED_TAG = "colorful_pots_redstoned";
 
 	@Unique
+	private static final String COLORFUL_POTS_IRONED_TAG = "colorful_pots_ironed";
+
+	@Unique
+	private static final String COLORFUL_POTS_QUARTZED_TAG = "colorful_pots_quartzed";
+
+	@Unique
+	private static final String COLORFUL_POTS_LAPISED_TAG = "colorful_pots_lapised";
+
+	@Unique
+	private static final String COLORFUL_POTS_NETHERITED_TAG = "colorful_pots_netherited";
+
+	@Unique
 	private static final String COLORFUL_POTS_DIAMONDED_DECORATIONS_TAG = "colorful_pots_diamonded_decorations";
 
 	@Unique
@@ -87,6 +111,18 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 
 	@Unique
 	private static final String COLORFUL_POTS_REDSTONED_DECORATIONS_TAG = "colorful_pots_redstoned_decorations";
+
+	@Unique
+	private static final String COLORFUL_POTS_IRONED_DECORATIONS_TAG = "colorful_pots_ironed_decorations";
+
+	@Unique
+	private static final String COLORFUL_POTS_QUARTZED_DECORATIONS_TAG = "colorful_pots_quartzed_decorations";
+
+	@Unique
+	private static final String COLORFUL_POTS_LAPISED_DECORATIONS_TAG = "colorful_pots_lapised_decorations";
+
+	@Unique
+	private static final String COLORFUL_POTS_NETHERITED_DECORATIONS_TAG = "colorful_pots_netherited_decorations";
 
 	@Shadow
 	private PotDecorations decorations;
@@ -113,6 +149,18 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	private boolean colorfulPots$redstoned;
 
 	@Unique
+	private boolean colorfulPots$ironed;
+
+	@Unique
+	private boolean colorfulPots$quartzed;
+
+	@Unique
+	private boolean colorfulPots$lapised;
+
+	@Unique
+	private boolean colorfulPots$netherited;
+
+	@Unique
 	private PotDecorations colorfulPots$decorationsBeforeApply;
 
 	@Unique
@@ -123,7 +171,11 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		boolean emeralded,
 		boolean amethysted,
 		boolean resined,
-		boolean redstoned
+		boolean redstoned,
+		boolean ironed,
+		boolean quartzed,
+		boolean lapised,
+		boolean netherited
 	) {
 		int coating = COLORFUL_POTS_COATING_NONE;
 		int count = 0;
@@ -156,6 +208,22 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			coating = COLORFUL_POTS_COATING_REDSTONE;
 			count++;
 		}
+		if (ironed) {
+			coating = COLORFUL_POTS_COATING_IRON;
+			count++;
+		}
+		if (quartzed) {
+			coating = COLORFUL_POTS_COATING_QUARTZ;
+			count++;
+		}
+		if (lapised) {
+			coating = COLORFUL_POTS_COATING_LAPIS;
+			count++;
+		}
+		if (netherited) {
+			coating = COLORFUL_POTS_COATING_NETHERITE;
+			count++;
+		}
 
 		return count == 1 ? coating : COLORFUL_POTS_COATING_NONE;
 	}
@@ -169,7 +237,11 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			this.colorfulPots$emeralded,
 			this.colorfulPots$amethysted,
 			this.colorfulPots$resined,
-			this.colorfulPots$redstoned
+			this.colorfulPots$redstoned,
+			this.colorfulPots$ironed,
+			this.colorfulPots$quartzed,
+			this.colorfulPots$lapised,
+			this.colorfulPots$netherited
 		);
 	}
 
@@ -182,6 +254,10 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		this.colorfulPots$amethysted = false;
 		this.colorfulPots$resined = false;
 		this.colorfulPots$redstoned = false;
+		this.colorfulPots$ironed = false;
+		this.colorfulPots$quartzed = false;
+		this.colorfulPots$lapised = false;
+		this.colorfulPots$netherited = false;
 	}
 
 	@Unique
@@ -195,6 +271,10 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			case COLORFUL_POTS_COATING_AMETHYST -> this.colorfulPots$amethysted = true;
 			case COLORFUL_POTS_COATING_RESIN -> this.colorfulPots$resined = true;
 			case COLORFUL_POTS_COATING_REDSTONE -> this.colorfulPots$redstoned = true;
+			case COLORFUL_POTS_COATING_IRON -> this.colorfulPots$ironed = true;
+			case COLORFUL_POTS_COATING_QUARTZ -> this.colorfulPots$quartzed = true;
+			case COLORFUL_POTS_COATING_LAPIS -> this.colorfulPots$lapised = true;
+			case COLORFUL_POTS_COATING_NETHERITE -> this.colorfulPots$netherited = true;
 			default -> {
 			}
 		}
@@ -210,6 +290,10 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			case COLORFUL_POTS_COATING_AMETHYST -> COLORFUL_POTS_AMETHYSTED_TAG;
 			case COLORFUL_POTS_COATING_RESIN -> COLORFUL_POTS_RESINED_TAG;
 			case COLORFUL_POTS_COATING_REDSTONE -> COLORFUL_POTS_REDSTONED_TAG;
+			case COLORFUL_POTS_COATING_IRON -> COLORFUL_POTS_IRONED_TAG;
+			case COLORFUL_POTS_COATING_QUARTZ -> COLORFUL_POTS_QUARTZED_TAG;
+			case COLORFUL_POTS_COATING_LAPIS -> COLORFUL_POTS_LAPISED_TAG;
+			case COLORFUL_POTS_COATING_NETHERITE -> COLORFUL_POTS_NETHERITED_TAG;
 			default -> null;
 		};
 	}
@@ -224,6 +308,10 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			case COLORFUL_POTS_COATING_AMETHYST -> COLORFUL_POTS_AMETHYSTED_DECORATIONS_TAG;
 			case COLORFUL_POTS_COATING_RESIN -> COLORFUL_POTS_RESINED_DECORATIONS_TAG;
 			case COLORFUL_POTS_COATING_REDSTONE -> COLORFUL_POTS_REDSTONED_DECORATIONS_TAG;
+			case COLORFUL_POTS_COATING_IRON -> COLORFUL_POTS_IRONED_DECORATIONS_TAG;
+			case COLORFUL_POTS_COATING_QUARTZ -> COLORFUL_POTS_QUARTZED_DECORATIONS_TAG;
+			case COLORFUL_POTS_COATING_LAPIS -> COLORFUL_POTS_LAPISED_DECORATIONS_TAG;
+			case COLORFUL_POTS_COATING_NETHERITE -> COLORFUL_POTS_NETHERITED_DECORATIONS_TAG;
 			default -> null;
 		};
 	}
@@ -238,6 +326,10 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED;
 			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED;
 			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED;
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED;
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED;
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED;
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED;
 			default -> null;
 		};
 	}
@@ -252,6 +344,10 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS;
 			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED_DECORATIONS;
 			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED_DECORATIONS;
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED_DECORATIONS;
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED_DECORATIONS;
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED_DECORATIONS;
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED_DECORATIONS;
 			default -> null;
 		};
 	}
@@ -284,7 +380,11 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			input.getBooleanOr(COLORFUL_POTS_EMERALDED_TAG, false),
 			input.getBooleanOr(COLORFUL_POTS_AMETHYSTED_TAG, false),
 			input.getBooleanOr(COLORFUL_POTS_RESINED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_REDSTONED_TAG, false)
+			input.getBooleanOr(COLORFUL_POTS_REDSTONED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_IRONED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_QUARTZED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_LAPISED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_NETHERITED_TAG, false)
 		);
 		this.colorfulPots$setExclusiveCoating(coating);
 
@@ -343,7 +443,11 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			componentGetter.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
 			componentGetter.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
 			componentGetter.getOrDefault(ColorfulPotsDataComponents.RESINED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false)
+			componentGetter.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
+			componentGetter.getOrDefault(ColorfulPotsDataComponents.IRONED, false),
+			componentGetter.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
+			componentGetter.getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
+			componentGetter.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
 		);
 		this.colorfulPots$setExclusiveCoating(coating);
 
@@ -463,6 +567,62 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			this.colorfulPots$setExclusiveCoating(COLORFUL_POTS_COATING_REDSTONE);
 		} else {
 			this.colorfulPots$redstoned = false;
+		}
+	}
+
+	@Override
+	public boolean colorfulPots$isIroned() {
+		return this.colorfulPots$ironed;
+	}
+
+	@Override
+	public void colorfulPots$setIroned(boolean ironed) {
+		if (ironed) {
+			this.colorfulPots$setExclusiveCoating(COLORFUL_POTS_COATING_IRON);
+		} else {
+			this.colorfulPots$ironed = false;
+		}
+	}
+
+	@Override
+	public boolean colorfulPots$isQuartzed() {
+		return this.colorfulPots$quartzed;
+	}
+
+	@Override
+	public void colorfulPots$setQuartzed(boolean quartzed) {
+		if (quartzed) {
+			this.colorfulPots$setExclusiveCoating(COLORFUL_POTS_COATING_QUARTZ);
+		} else {
+			this.colorfulPots$quartzed = false;
+		}
+	}
+
+	@Override
+	public boolean colorfulPots$isLapised() {
+		return this.colorfulPots$lapised;
+	}
+
+	@Override
+	public void colorfulPots$setLapised(boolean lapised) {
+		if (lapised) {
+			this.colorfulPots$setExclusiveCoating(COLORFUL_POTS_COATING_LAPIS);
+		} else {
+			this.colorfulPots$lapised = false;
+		}
+	}
+
+	@Override
+	public boolean colorfulPots$isNetherited() {
+		return this.colorfulPots$netherited;
+	}
+
+	@Override
+	public void colorfulPots$setNetherited(boolean netherited) {
+		if (netherited) {
+			this.colorfulPots$setExclusiveCoating(COLORFUL_POTS_COATING_NETHERITE);
+		} else {
+			this.colorfulPots$netherited = false;
 		}
 	}
 }

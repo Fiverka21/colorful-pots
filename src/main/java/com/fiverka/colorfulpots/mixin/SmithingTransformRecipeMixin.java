@@ -45,6 +45,18 @@ public abstract class SmithingTransformRecipeMixin {
 	private static final int COLORFUL_POTS_COATING_REDSTONE = 6;
 
 	@Unique
+	private static final int COLORFUL_POTS_COATING_IRON = 7;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_QUARTZ = 8;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_LAPIS = 9;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_NETHERITE = 10;
+
+	@Unique
 	private static int colorfulPots$resolveCoating(
 		boolean diamonded,
 		boolean golded,
@@ -52,7 +64,11 @@ public abstract class SmithingTransformRecipeMixin {
 		boolean emeralded,
 		boolean amethysted,
 		boolean resined,
-		boolean redstoned
+		boolean redstoned,
+		boolean ironed,
+		boolean quartzed,
+		boolean lapised,
+		boolean netherited
 	) {
 		int coating = COLORFUL_POTS_COATING_NONE;
 		int count = 0;
@@ -85,6 +101,22 @@ public abstract class SmithingTransformRecipeMixin {
 			coating = COLORFUL_POTS_COATING_REDSTONE;
 			count++;
 		}
+		if (ironed) {
+			coating = COLORFUL_POTS_COATING_IRON;
+			count++;
+		}
+		if (quartzed) {
+			coating = COLORFUL_POTS_COATING_QUARTZ;
+			count++;
+		}
+		if (lapised) {
+			coating = COLORFUL_POTS_COATING_LAPIS;
+			count++;
+		}
+		if (netherited) {
+			coating = COLORFUL_POTS_COATING_NETHERITE;
+			count++;
+		}
 
 		return count == 1 ? coating : COLORFUL_POTS_COATING_NONE;
 	}
@@ -97,7 +129,11 @@ public abstract class SmithingTransformRecipeMixin {
 		boolean emeralded,
 		boolean amethysted,
 		boolean resined,
-		boolean redstoned
+		boolean redstoned,
+		boolean ironed,
+		boolean quartzed,
+		boolean lapised,
+		boolean netherited
 	) {
 		int count = 0;
 		if (diamonded) {
@@ -121,6 +157,18 @@ public abstract class SmithingTransformRecipeMixin {
 		if (redstoned) {
 			count++;
 		}
+		if (ironed) {
+			count++;
+		}
+		if (quartzed) {
+			count++;
+		}
+		if (lapised) {
+			count++;
+		}
+		if (netherited) {
+			count++;
+		}
 		return count;
 	}
 
@@ -134,6 +182,10 @@ public abstract class SmithingTransformRecipeMixin {
 			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED;
 			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED;
 			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED;
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED;
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED;
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED;
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED;
 			default -> null;
 		};
 	}
@@ -148,6 +200,10 @@ public abstract class SmithingTransformRecipeMixin {
 			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS;
 			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED_DECORATIONS;
 			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED_DECORATIONS;
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED_DECORATIONS;
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED_DECORATIONS;
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED_DECORATIONS;
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED_DECORATIONS;
 			default -> null;
 		};
 	}
@@ -161,6 +217,10 @@ public abstract class SmithingTransformRecipeMixin {
 		stack.set(ColorfulPotsDataComponents.AMETHYSTED, false);
 		stack.set(ColorfulPotsDataComponents.RESINED, false);
 		stack.set(ColorfulPotsDataComponents.REDSTONED, false);
+		stack.set(ColorfulPotsDataComponents.IRONED, false);
+		stack.set(ColorfulPotsDataComponents.QUARTZED, false);
+		stack.set(ColorfulPotsDataComponents.LAPISED, false);
+		stack.set(ColorfulPotsDataComponents.NETHERITED, false);
 	}
 
 	@Unique
@@ -172,6 +232,10 @@ public abstract class SmithingTransformRecipeMixin {
 		stack.remove(ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS);
 		stack.remove(ColorfulPotsDataComponents.RESINED_DECORATIONS);
 		stack.remove(ColorfulPotsDataComponents.REDSTONED_DECORATIONS);
+		stack.remove(ColorfulPotsDataComponents.IRONED_DECORATIONS);
+		stack.remove(ColorfulPotsDataComponents.QUARTZED_DECORATIONS);
+		stack.remove(ColorfulPotsDataComponents.LAPISED_DECORATIONS);
+		stack.remove(ColorfulPotsDataComponents.NETHERITED_DECORATIONS);
 	}
 
 	@Inject(
@@ -196,13 +260,41 @@ public abstract class SmithingTransformRecipeMixin {
 		boolean amethysted = result.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false);
 		boolean resined = result.getOrDefault(ColorfulPotsDataComponents.RESINED, false);
 		boolean redstoned = result.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false);
+		boolean ironed = result.getOrDefault(ColorfulPotsDataComponents.IRONED, false);
+		boolean quartzed = result.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false);
+		boolean lapised = result.getOrDefault(ColorfulPotsDataComponents.LAPISED, false);
+		boolean netherited = result.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false);
 
-		int coatingCount = colorfulPots$coatingCount(diamonded, golded, coppered, emeralded, amethysted, resined, redstoned);
+		int coatingCount = colorfulPots$coatingCount(
+			diamonded,
+			golded,
+			coppered,
+			emeralded,
+			amethysted,
+			resined,
+			redstoned,
+			ironed,
+			quartzed,
+			lapised,
+			netherited
+		);
 		if (coatingCount == 0) {
 			return;
 		}
 
-		int coating = colorfulPots$resolveCoating(diamonded, golded, coppered, emeralded, amethysted, resined, redstoned);
+		int coating = colorfulPots$resolveCoating(
+			diamonded,
+			golded,
+			coppered,
+			emeralded,
+			amethysted,
+			resined,
+			redstoned,
+			ironed,
+			quartzed,
+			lapised,
+			netherited
+		);
 		colorfulPots$clearAllCoatings(result);
 		colorfulPots$clearAllCoatingDecorations(result);
 

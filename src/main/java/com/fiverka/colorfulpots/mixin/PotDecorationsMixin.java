@@ -40,6 +40,18 @@ public abstract class PotDecorationsMixin {
 	private static final int COLORFUL_POTS_COATING_REDSTONE = 6;
 
 	@Unique
+	private static final int COLORFUL_POTS_COATING_IRON = 7;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_QUARTZ = 8;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_LAPIS = 9;
+
+	@Unique
+	private static final int COLORFUL_POTS_COATING_NETHERITE = 10;
+
+	@Unique
 	private static int colorfulPots$resolveCoating(
 		boolean diamonded,
 		boolean golded,
@@ -47,7 +59,11 @@ public abstract class PotDecorationsMixin {
 		boolean emeralded,
 		boolean amethysted,
 		boolean resined,
-		boolean redstoned
+		boolean redstoned,
+		boolean ironed,
+		boolean quartzed,
+		boolean lapised,
+		boolean netherited
 	) {
 		int coating = COLORFUL_POTS_COATING_NONE;
 		int count = 0;
@@ -80,6 +96,22 @@ public abstract class PotDecorationsMixin {
 			coating = COLORFUL_POTS_COATING_REDSTONE;
 			count++;
 		}
+		if (ironed) {
+			coating = COLORFUL_POTS_COATING_IRON;
+			count++;
+		}
+		if (quartzed) {
+			coating = COLORFUL_POTS_COATING_QUARTZ;
+			count++;
+		}
+		if (lapised) {
+			coating = COLORFUL_POTS_COATING_LAPIS;
+			count++;
+		}
+		if (netherited) {
+			coating = COLORFUL_POTS_COATING_NETHERITE;
+			count++;
+		}
 
 		return count == 1 ? coating : COLORFUL_POTS_COATING_NONE;
 	}
@@ -99,20 +131,28 @@ public abstract class PotDecorationsMixin {
 			components.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
 			components.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
 			components.getOrDefault(ColorfulPotsDataComponents.RESINED, false),
-			components.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false)
+			components.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
+			components.getOrDefault(ColorfulPotsDataComponents.IRONED, false),
+			components.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
+			components.getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
+			components.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
 		);
 		if (coating == COLORFUL_POTS_COATING_NONE) {
 			return;
 		}
 
 		String label = switch (coating) {
-			case COLORFUL_POTS_COATING_DIAMOND -> "diamond";
-			case COLORFUL_POTS_COATING_GOLD -> "gold";
-			case COLORFUL_POTS_COATING_COPPER -> "copper";
-			case COLORFUL_POTS_COATING_EMERALD -> "emerald";
-			case COLORFUL_POTS_COATING_AMETHYST -> "amethyst";
-			case COLORFUL_POTS_COATING_RESIN -> "resin";
-			case COLORFUL_POTS_COATING_REDSTONE -> "redstone";
+			case COLORFUL_POTS_COATING_DIAMOND -> "Diamond";
+			case COLORFUL_POTS_COATING_GOLD -> "Gold";
+			case COLORFUL_POTS_COATING_COPPER -> "Copper";
+			case COLORFUL_POTS_COATING_EMERALD -> "Emerald";
+			case COLORFUL_POTS_COATING_AMETHYST -> "Amethyst";
+			case COLORFUL_POTS_COATING_RESIN -> "Resin";
+			case COLORFUL_POTS_COATING_REDSTONE -> "Redstone";
+			case COLORFUL_POTS_COATING_IRON -> "Iron";
+			case COLORFUL_POTS_COATING_QUARTZ -> "Quartz";
+			case COLORFUL_POTS_COATING_LAPIS -> "Lapis Lazuli";
+			case COLORFUL_POTS_COATING_NETHERITE -> "Netherite";
 			default -> null;
 		};
 		if (label != null) {

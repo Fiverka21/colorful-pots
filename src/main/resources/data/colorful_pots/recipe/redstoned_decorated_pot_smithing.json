@@ -1,17 +1,17 @@
 {
 	"type": "minecraft:smithing_transform",
 	"base": "minecraft:decorated_pot",
-	"addition": "minecraft:diamond",
+	"addition": "minecraft:redstone",
 	"result": {
 		"id": "minecraft:decorated_pot",
 		"components": {
-			"colorful_pots:diamonded": true,
+			"colorful_pots:redstoned": true,
+			"colorful_pots:diamonded": false,
 			"colorful_pots:golded": false,
 			"colorful_pots:coppered": false,
 			"colorful_pots:emeralded": false,
 			"colorful_pots:amethysted": false,
-			"colorful_pots:resined": false,
-			"colorful_pots:redstoned": false
+			"colorful_pots:resined": false
 		}
 	}
 }

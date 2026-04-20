@@ -6,14 +6,14 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.PotDecorations;
 
 public final class ColorfulPotsDataComponents {
 	public static final DataComponentType<Boolean> DIAMONDED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "diamonded"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "diamonded"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -22,7 +22,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> DIAMONDED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "diamonded_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "diamonded_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -31,7 +31,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> GOLDED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "golded"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "golded"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -40,7 +40,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> GOLDED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "golded_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "golded_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -49,7 +49,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> COPPERED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "coppered"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "coppered"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -58,7 +58,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> COPPERED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "coppered_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "coppered_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -67,7 +67,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> EMERALDED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "emeralded"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "emeralded"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -76,7 +76,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> EMERALDED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "emeralded_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "emeralded_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -85,7 +85,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> AMETHYSTED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "amethysted"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "amethysted"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -94,7 +94,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> AMETHYSTED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "amethysted_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "amethysted_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -103,7 +103,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> RESINED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "resined"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "resined"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -112,7 +112,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> RESINED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "resined_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "resined_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -121,7 +121,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> REDSTONED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "redstoned"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "redstoned"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -130,7 +130,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> REDSTONED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "redstoned_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "redstoned_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -139,7 +139,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> IRONED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "ironed"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "ironed"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -148,7 +148,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> IRONED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "ironed_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "ironed_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -157,7 +157,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> QUARTZED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "quartzed"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "quartzed"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -166,7 +166,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> QUARTZED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "quartzed_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "quartzed_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -175,7 +175,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> LAPISED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "lapised"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "lapised"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -184,7 +184,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> LAPISED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "lapised_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "lapised_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)
@@ -193,7 +193,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<Boolean> NETHERITED = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "netherited"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "netherited"),
 		DataComponentType.<Boolean>builder()
 			.persistent(Codec.BOOL)
 			.networkSynchronized(ByteBufCodecs.BOOL)
@@ -202,7 +202,7 @@ public final class ColorfulPotsDataComponents {
 
 	public static final DataComponentType<PotDecorations> NETHERITED_DECORATIONS = Registry.register(
 		BuiltInRegistries.DATA_COMPONENT_TYPE,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "netherited_decorations"),
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "netherited_decorations"),
 		DataComponentType.<PotDecorations>builder()
 			.persistent(PotDecorations.CODEC)
 			.networkSynchronized(PotDecorations.STREAM_CODEC)

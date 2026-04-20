@@ -3,7 +3,6 @@
 	"package": "com.fiverka.colorfulpots.client.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"DecoratedPotRenderStateMixin",
 		"DecoratedPotRendererMixin"
 	],
 	"injectors": {

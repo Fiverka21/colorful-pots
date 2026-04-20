@@ -3,26 +3,21 @@ package com.fiverka.colorfulpots.client.mixin;
 import com.fiverka.colorfulpots.ColorfulPotsMod;
 import com.fiverka.colorfulpots.access.DiamondPotAccess;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import java.util.Optional;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.DecoratedPotRenderer;
-import net.minecraft.client.renderer.blockentity.state.DecoratedPotRenderState;
-import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
-import net.minecraft.world.level.block.entity.DecoratedPotPatterns;
 import net.minecraft.world.level.block.entity.PotDecorations;
-import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -72,72 +67,68 @@ public abstract class DecoratedPotRendererMixin {
 	@Unique
 	private static final Material COLORFUL_POTS_DIAMOND_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/diamond_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/diamond_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_GOLD_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/gold_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/gold_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_COPPER_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/copper_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/copper_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_EMERALD_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/emerald_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/emerald_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_AMETHYST_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/amethyst_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/amethyst_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_RESIN_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/resin_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/resin_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_REDSTONE_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/redstone_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/redstone_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_IRON_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/iron_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/iron_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_QUARTZ_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/quartz_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/quartz_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_LAPIS_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/lapis_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/lapis_base")
 	);
 
 	@Unique
 	private static final Material COLORFUL_POTS_NETHERITE_SIDE_MATERIAL = new Material(
 		Sheets.DECORATED_POT_SHEET,
-		Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/netherite_base")
+		ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, "entity/decorated_pot/netherite_base")
 	);
-
-	@Shadow
-	@Final
-	private MaterialSet materials;
 
 	@Shadow
 	@Final
@@ -167,20 +158,10 @@ public abstract class DecoratedPotRendererMixin {
 	@Final
 	private ModelPart bottom;
 
-	@Unique
-	private boolean colorfulPots$renderingPlacedBlock;
-
-	@Unique
-	private int colorfulPots$activeCoatingFromBlockState = COLORFUL_POTS_COATING_NONE;
-
-	@Unique
-	private PotDecorations colorfulPots$lastExtractedDecorations = PotDecorations.EMPTY;
-
-	@Unique
-	private static long colorfulPots$lastMissingDecorationsLogMs;
-
-	@Unique
-	private static long colorfulPots$lastOverlayMaterialLogMs;
+	@Shadow
+	private static Material getSideMaterial(Optional<Item> sideItem) {
+		throw new AssertionError();
+	}
 
 	@Unique
 	private static int colorfulPots$resolveCoating(
@@ -282,83 +263,78 @@ public abstract class DecoratedPotRendererMixin {
 		};
 	}
 
-	@Inject(
-		method = "extractRenderState(Lnet/minecraft/world/level/block/entity/DecoratedPotBlockEntity;Lnet/minecraft/client/renderer/blockentity/state/DecoratedPotRenderState;FLnet/minecraft/world/phys/Vec3;Lnet/minecraft/client/renderer/feature/ModelFeatureRenderer$CrumblingOverlay;)V",
-		at = @At("TAIL")
-	)
-	private void colorfulPots$copyDecorationProperties(
-		DecoratedPotBlockEntity blockEntity,
-		DecoratedPotRenderState renderState,
-		float tickDelta,
-		Vec3 cameraPos,
-		ModelFeatureRenderer.CrumblingOverlay crumblingOverlay,
-		CallbackInfo ci
-	) {
-		int coating = colorfulPots$resolveCoating((DiamondPotAccess) blockEntity);
-		DiamondPotAccess access = (DiamondPotAccess) renderState;
-		access.colorfulPots$setDiamonded(coating == COLORFUL_POTS_COATING_DIAMOND);
-		access.colorfulPots$setGolded(coating == COLORFUL_POTS_COATING_GOLD);
-		access.colorfulPots$setCoppered(coating == COLORFUL_POTS_COATING_COPPER);
-		access.colorfulPots$setEmeralded(coating == COLORFUL_POTS_COATING_EMERALD);
-		access.colorfulPots$setAmethysted(coating == COLORFUL_POTS_COATING_AMETHYST);
-		access.colorfulPots$setResined(coating == COLORFUL_POTS_COATING_RESIN);
-		access.colorfulPots$setRedstoned(coating == COLORFUL_POTS_COATING_REDSTONE);
-		access.colorfulPots$setIroned(coating == COLORFUL_POTS_COATING_IRON);
-		access.colorfulPots$setQuartzed(coating == COLORFUL_POTS_COATING_QUARTZ);
-		access.colorfulPots$setLapised(coating == COLORFUL_POTS_COATING_LAPIS);
-		access.colorfulPots$setNetherited(coating == COLORFUL_POTS_COATING_NETHERITE);
-		this.colorfulPots$lastExtractedDecorations = blockEntity.getDecorations();
-	}
-
-	@Inject(
-		method = "submit(Lnet/minecraft/client/renderer/blockentity/state/DecoratedPotRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
-		at = @At("HEAD")
-	)
-	private void colorfulPots$beginBlockRender(
-		DecoratedPotRenderState renderState,
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		CameraRenderState cameraState,
-		CallbackInfo ci
-	) {
-		this.colorfulPots$renderingPlacedBlock = true;
-		this.colorfulPots$activeCoatingFromBlockState = colorfulPots$resolveCoating((DiamondPotAccess) renderState);
-	}
-
-	@Inject(
-		method = "submit(Lnet/minecraft/client/renderer/blockentity/state/DecoratedPotRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
-		at = @At("TAIL")
-	)
-	private void colorfulPots$endBlockRender(
-		DecoratedPotRenderState renderState,
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		CameraRenderState cameraState,
-		CallbackInfo ci
-	) {
-		this.colorfulPots$renderingPlacedBlock = false;
-		this.colorfulPots$activeCoatingFromBlockState = COLORFUL_POTS_COATING_NONE;
-	}
-
-	@Inject(
-		method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IILnet/minecraft/world/level/block/entity/PotDecorations;I)V",
-		at = @At("HEAD"),
-		cancellable = true
-	)
-	private void colorfulPots$submitDecoratedPlacedPot(
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		int light,
-		int overlay,
-		PotDecorations decorations,
-		int modelFeature,
-		CallbackInfo ci
-	) {
-		if (!this.colorfulPots$renderingPlacedBlock) {
+	@Unique
+	private static void colorfulPots$applyWobble(DecoratedPotBlockEntity blockEntity, float tickDelta, PoseStack poseStack) {
+		DecoratedPotBlockEntity.WobbleStyle wobbleStyle = blockEntity.lastWobbleStyle;
+		if (wobbleStyle == null || blockEntity.getLevel() == null) {
 			return;
 		}
 
-		int coating = this.colorfulPots$activeCoatingFromBlockState;
+		float wobbleProgress = ((float) (blockEntity.getLevel().getGameTime() - blockEntity.wobbleStartedAtTick) + tickDelta)
+			/ (float) wobbleStyle.duration;
+		if (wobbleProgress < 0.0F || wobbleProgress > 1.0F) {
+			return;
+		}
+
+		if (wobbleStyle == DecoratedPotBlockEntity.WobbleStyle.POSITIVE) {
+			float cycle = wobbleProgress * ((float) Math.PI * 2.0F);
+			float tilt = -1.5F * (Mth.cos(cycle) + 0.5F) * Mth.sin(cycle / 2.0F);
+			poseStack.rotateAround(Axis.XP.rotation(tilt * 0.015625F), 0.5F, 0.0F, 0.5F);
+			float roll = Mth.sin(cycle);
+			poseStack.rotateAround(Axis.ZP.rotation(roll * 0.015625F), 0.5F, 0.0F, 0.5F);
+			return;
+		}
+
+		float yaw = Mth.sin(-wobbleProgress * 3.0F * (float) Math.PI) * 0.125F;
+		float decay = 1.0F - wobbleProgress;
+		poseStack.rotateAround(Axis.YP.rotation(yaw * decay), 0.5F, 0.0F, 0.5F);
+	}
+
+	@Unique
+	private static Material colorfulPots$getModSideMaterial(Optional<Item> sideItem) {
+		Material vanillaMaterial = getSideMaterial(sideItem);
+		ResourceLocation texture = vanillaMaterial.texture();
+		ResourceLocation modTexture = ResourceLocation.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, texture.getPath());
+		return new Material(Sheets.DECORATED_POT_SHEET, modTexture);
+	}
+
+	@Unique
+	private static void colorfulPots$renderPartSolid(
+		ModelPart part,
+		PoseStack poseStack,
+		MultiBufferSource bufferSource,
+		int packedLight,
+		int packedOverlay,
+		Material material
+	) {
+		VertexConsumer vertexConsumer = material.buffer(bufferSource, RenderType::entitySolid);
+		part.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+	}
+
+	@Unique
+	private static void colorfulPots$renderPartCutout(
+		ModelPart part,
+		PoseStack poseStack,
+		MultiBufferSource bufferSource,
+		int packedLight,
+		int packedOverlay,
+		Material material
+	) {
+		VertexConsumer vertexConsumer = material.buffer(bufferSource, RenderType::entityCutoutNoCullZOffset);
+		part.render(poseStack, vertexConsumer, packedLight, packedOverlay);
+	}
+
+	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
+	private void colorfulPots$renderCoatedPot(
+		DecoratedPotBlockEntity blockEntity,
+		float tickDelta,
+		PoseStack poseStack,
+		MultiBufferSource bufferSource,
+		int packedLight,
+		int packedOverlay,
+		CallbackInfo ci
+	) {
+		int coating = colorfulPots$resolveCoating((DiamondPotAccess) blockEntity);
 		if (coating == COLORFUL_POTS_COATING_NONE) {
 			return;
 		}
@@ -368,146 +344,58 @@ public abstract class DecoratedPotRendererMixin {
 			return;
 		}
 
-		PotDecorations effectiveDecorations = decorations;
-		if (PotDecorations.EMPTY.equals(effectiveDecorations)
-			&& !PotDecorations.EMPTY.equals(this.colorfulPots$lastExtractedDecorations)) {
-			effectiveDecorations = this.colorfulPots$lastExtractedDecorations;
-		}
-		if (PotDecorations.EMPTY.equals(effectiveDecorations)) {
-			long now = System.currentTimeMillis();
-			if (now - colorfulPots$lastMissingDecorationsLogMs > 2000L) {
-				colorfulPots$lastMissingDecorationsLogMs = now;
-				ColorfulPotsMod.LOGGER.warn(
-					"Decorated pot render has empty decorations (submitArg={}, extracted={})",
-					decorations,
-					this.colorfulPots$lastExtractedDecorations
-				);
-			}
-		}
+		poseStack.pushPose();
+		Direction direction = blockEntity.getDirection();
+		poseStack.translate(0.5D, 0.0D, 0.5D);
+		poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - direction.toYRot()));
+		poseStack.translate(-0.5D, 0.0D, -0.5D);
+		colorfulPots$applyWobble(blockEntity, tickDelta, poseStack);
 
-		this.colorfulPots$submitBaseParts(poseStack, collector, light, overlay, modelFeature);
+		VertexConsumer baseConsumer = Sheets.DECORATED_POT_BASE.buffer(bufferSource, RenderType::entitySolid);
+		this.neck.render(poseStack, baseConsumer, packedLight, packedOverlay);
+		this.top.render(poseStack, baseConsumer, packedLight, packedOverlay);
+		this.bottom.render(poseStack, baseConsumer, packedLight, packedOverlay);
 
-		this.colorfulPots$submitPart(this.frontSide, poseStack, collector, light, overlay, baseSideMaterial, modelFeature);
-		this.colorfulPots$submitPart(this.backSide, poseStack, collector, light, overlay, baseSideMaterial, modelFeature);
-		this.colorfulPots$submitPart(this.leftSide, poseStack, collector, light, overlay, baseSideMaterial, modelFeature);
-		this.colorfulPots$submitPart(this.rightSide, poseStack, collector, light, overlay, baseSideMaterial, modelFeature);
+		colorfulPots$renderPartSolid(this.frontSide, poseStack, bufferSource, packedLight, packedOverlay, baseSideMaterial);
+		colorfulPots$renderPartSolid(this.backSide, poseStack, bufferSource, packedLight, packedOverlay, baseSideMaterial);
+		colorfulPots$renderPartSolid(this.leftSide, poseStack, bufferSource, packedLight, packedOverlay, baseSideMaterial);
+		colorfulPots$renderPartSolid(this.rightSide, poseStack, bufferSource, packedLight, packedOverlay, baseSideMaterial);
 
-		Material frontMaterial = this.colorfulPots$getModSideMaterial(effectiveDecorations.front());
-		Material backMaterial = this.colorfulPots$getModSideMaterial(effectiveDecorations.back());
-		Material leftMaterial = this.colorfulPots$getModSideMaterial(effectiveDecorations.left());
-		Material rightMaterial = this.colorfulPots$getModSideMaterial(effectiveDecorations.right());
-
-		this.colorfulPots$debugOverlayMaterials(frontMaterial, backMaterial, leftMaterial, rightMaterial);
-
-		this.colorfulPots$submitPartWithCutout(this.frontSide, poseStack, collector, light, overlay, frontMaterial, modelFeature);
-		this.colorfulPots$submitPartWithCutout(this.backSide, poseStack, collector, light, overlay, backMaterial, modelFeature);
-		this.colorfulPots$submitPartWithCutout(this.leftSide, poseStack, collector, light, overlay, leftMaterial, modelFeature);
-		this.colorfulPots$submitPartWithCutout(this.rightSide, poseStack, collector, light, overlay, rightMaterial, modelFeature);
-
-		ci.cancel();
-	}
-
-	@Unique
-	private void colorfulPots$submitBaseParts(
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		int light,
-		int overlay,
-		int modelFeature
-	) {
-		this.colorfulPots$submitPart(this.neck, poseStack, collector, light, overlay, Sheets.DECORATED_POT_BASE, modelFeature);
-		this.colorfulPots$submitPart(this.top, poseStack, collector, light, overlay, Sheets.DECORATED_POT_BASE, modelFeature);
-		this.colorfulPots$submitPart(this.bottom, poseStack, collector, light, overlay, Sheets.DECORATED_POT_BASE, modelFeature);
-	}
-
-	@Unique
-	private Material colorfulPots$getModSideMaterial(java.util.Optional<Item> sideItem) {
-		Material vanillaMaterial = Sheets.DECORATED_POT_SIDE;
-		if (sideItem.isPresent()) {
-			Material patternMaterial = Sheets.getDecoratedPotMaterial(DecoratedPotPatterns.getPatternFromItem(sideItem.get()));
-			if (patternMaterial != null) {
-				vanillaMaterial = patternMaterial;
-			}
-		}
-
-		Identifier texture = vanillaMaterial.texture();
-		Identifier modTexture = Identifier.fromNamespaceAndPath(ColorfulPotsMod.MOD_ID, texture.getPath());
-		return new Material(Sheets.DECORATED_POT_SHEET, modTexture);
-	}
-
-	@Unique
-	private void colorfulPots$submitPart(
-		ModelPart part,
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		RenderType renderType,
-		int light,
-		int overlay,
-		TextureAtlasSprite sprite,
-		int modelFeature
-	) {
-		collector.submitModelPart(part, poseStack, renderType, light, overlay, sprite, false, false, -1, null, modelFeature);
-	}
-
-	@Unique
-	private void colorfulPots$submitPart(
-		ModelPart part,
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		int light,
-		int overlay,
-		Material material,
-		int modelFeature
-	) {
-		RenderType renderType = material.renderType(RenderTypes::entitySolid);
-		TextureAtlasSprite sprite = this.materials.get(material);
-		this.colorfulPots$submitPart(part, poseStack, collector, renderType, light, overlay, sprite, modelFeature);
-	}
-
-	@Unique
-	private void colorfulPots$submitPartWithCutout(
-		ModelPart part,
-		PoseStack poseStack,
-		SubmitNodeCollector collector,
-		int light,
-		int overlay,
-		Material material,
-		int modelFeature
-	) {
-		RenderType renderType = material.renderType(RenderTypes::entityCutoutNoCullZOffset);
-		TextureAtlasSprite sprite = this.materials.get(material);
-		this.colorfulPots$submitPart(part, poseStack, collector, renderType, light, overlay, sprite, modelFeature);
-	}
-
-	@Unique
-	private void colorfulPots$debugOverlayMaterials(
-		Material frontMaterial,
-		Material backMaterial,
-		Material leftMaterial,
-		Material rightMaterial
-	) {
-		long now = System.currentTimeMillis();
-		if (now - colorfulPots$lastOverlayMaterialLogMs <= 2000L) {
-			return;
-		}
-		colorfulPots$lastOverlayMaterialLogMs = now;
-
-		ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
-		ColorfulPotsMod.LOGGER.warn(
-			"Decorated pot overlay materials front={}({}) back={}({}) left={}({}) right={}({})",
-			frontMaterial.texture(),
-			resourceManager.getResource(this.colorfulPots$asTexturePng(frontMaterial.texture())).isPresent(),
-			backMaterial.texture(),
-			resourceManager.getResource(this.colorfulPots$asTexturePng(backMaterial.texture())).isPresent(),
-			leftMaterial.texture(),
-			resourceManager.getResource(this.colorfulPots$asTexturePng(leftMaterial.texture())).isPresent(),
-			rightMaterial.texture(),
-			resourceManager.getResource(this.colorfulPots$asTexturePng(rightMaterial.texture())).isPresent()
+		PotDecorations decorations = blockEntity.getDecorations();
+		colorfulPots$renderPartCutout(
+			this.frontSide,
+			poseStack,
+			bufferSource,
+			packedLight,
+			packedOverlay,
+			colorfulPots$getModSideMaterial(decorations.front())
 		);
-	}
+		colorfulPots$renderPartCutout(
+			this.backSide,
+			poseStack,
+			bufferSource,
+			packedLight,
+			packedOverlay,
+			colorfulPots$getModSideMaterial(decorations.back())
+		);
+		colorfulPots$renderPartCutout(
+			this.leftSide,
+			poseStack,
+			bufferSource,
+			packedLight,
+			packedOverlay,
+			colorfulPots$getModSideMaterial(decorations.left())
+		);
+		colorfulPots$renderPartCutout(
+			this.rightSide,
+			poseStack,
+			bufferSource,
+			packedLight,
+			packedOverlay,
+			colorfulPots$getModSideMaterial(decorations.right())
+		);
 
-	@Unique
-	private Identifier colorfulPots$asTexturePng(Identifier textureId) {
-		return textureId.withPrefix("textures/").withSuffix(".png");
+		poseStack.popPose();
+		ci.cancel();
 	}
 }

@@ -4,13 +4,11 @@ import com.fiverka.colorfulpots.component.ColorfulPotsDataComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.TypedEntityData;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.PotDecorations;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -324,11 +322,12 @@ public abstract class SmithingTransformRecipeMixin {
 			return decorations;
 		}
 
-		TypedEntityData<BlockEntityType<?>> blockEntityData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-		if (blockEntityData != null && blockEntityData.type() == BlockEntityType.DECORATED_POT) {
-			return blockEntityData.copyTagWithoutId()
-				.read("sherds", PotDecorations.CODEC, registries.createSerializationContext(NbtOps.INSTANCE))
-				.orElse(decorations);
+		CustomData blockEntityData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+		if (blockEntityData != null) {
+			PotDecorations sherdsDecorations = PotDecorations.load(blockEntityData.copyTag());
+			if (!PotDecorations.EMPTY.equals(sherdsDecorations)) {
+				return sherdsDecorations;
+			}
 		}
 
 		return decorations;

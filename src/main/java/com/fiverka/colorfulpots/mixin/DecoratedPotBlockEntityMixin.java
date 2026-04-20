@@ -2,17 +2,15 @@ package com.fiverka.colorfulpots.mixin;
 
 import com.fiverka.colorfulpots.access.DiamondPotAccess;
 import com.fiverka.colorfulpots.component.ColorfulPotsDataComponents;
-import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.world.item.component.TypedEntityData;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.block.entity.PotDecorations;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -159,9 +157,6 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 
 	@Unique
 	private boolean colorfulPots$netherited;
-
-	@Unique
-	private PotDecorations colorfulPots$decorationsBeforeApply;
 
 	@Unique
 	private static int colorfulPots$resolveCoating(
@@ -353,7 +348,7 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	}
 
 	@Inject(method = "saveAdditional", at = @At("TAIL"))
-	private void colorfulPots$saveDecorationState(ValueOutput output, CallbackInfo ci) {
+	private void colorfulPots$saveDecorationState(CompoundTag output, HolderLookup.Provider registries, CallbackInfo ci) {
 		int coating = this.colorfulPots$getActiveCoatingFromState();
 		if (coating == COLORFUL_POTS_COATING_NONE) {
 			return;
@@ -367,24 +362,26 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 
 		output.putBoolean(coatingTag, true);
 		if (!PotDecorations.EMPTY.equals(this.decorations)) {
-			output.store(decorationsTag, PotDecorations.CODEC, this.decorations);
+			CompoundTag decorationsData = new CompoundTag();
+			this.decorations.save(decorationsData);
+			output.put(decorationsTag, decorationsData);
 		}
 	}
 
 	@Inject(method = "loadAdditional", at = @At("TAIL"))
-	private void colorfulPots$loadDecorationState(ValueInput input, CallbackInfo ci) {
+	private void colorfulPots$loadDecorationState(CompoundTag input, HolderLookup.Provider registries, CallbackInfo ci) {
 		int coating = colorfulPots$resolveCoating(
-			input.getBooleanOr(COLORFUL_POTS_DIAMONDED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_GOLDED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_COPPERED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_EMERALDED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_AMETHYSTED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_RESINED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_REDSTONED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_IRONED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_QUARTZED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_LAPISED_TAG, false),
-			input.getBooleanOr(COLORFUL_POTS_NETHERITED_TAG, false)
+			input.getBoolean(COLORFUL_POTS_DIAMONDED_TAG),
+			input.getBoolean(COLORFUL_POTS_GOLDED_TAG),
+			input.getBoolean(COLORFUL_POTS_COPPERED_TAG),
+			input.getBoolean(COLORFUL_POTS_EMERALDED_TAG),
+			input.getBoolean(COLORFUL_POTS_AMETHYSTED_TAG),
+			input.getBoolean(COLORFUL_POTS_RESINED_TAG),
+			input.getBoolean(COLORFUL_POTS_REDSTONED_TAG),
+			input.getBoolean(COLORFUL_POTS_IRONED_TAG),
+			input.getBoolean(COLORFUL_POTS_QUARTZED_TAG),
+			input.getBoolean(COLORFUL_POTS_LAPISED_TAG),
+			input.getBoolean(COLORFUL_POTS_NETHERITED_TAG)
 		);
 		this.colorfulPots$setExclusiveCoating(coating);
 
@@ -393,11 +390,11 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		}
 
 		String decorationsTag = colorfulPots$getCoatingDecorationsTag(coating);
-		if (decorationsTag == null) {
+		if (decorationsTag == null || !input.contains(decorationsTag, 10)) {
 			return;
 		}
 
-		PotDecorations loadedDecorations = input.read(decorationsTag, PotDecorations.CODEC).orElse(PotDecorations.EMPTY);
+		PotDecorations loadedDecorations = PotDecorations.load(input.getCompound(decorationsTag));
 		if (!PotDecorations.EMPTY.equals(loadedDecorations)) {
 			this.decorations = loadedDecorations;
 		}
@@ -420,52 +417,34 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		builder.set(coatingDecorationsComponent, this.decorations);
 	}
 
-	@Inject(method = "applyImplicitComponents", at = @At("HEAD"))
-	private void colorfulPots$captureDecorationsBeforeApply(DataComponentGetter componentGetter, CallbackInfo ci) {
-		this.colorfulPots$decorationsBeforeApply = this.decorations;
-	}
-
-	@Inject(method = "applyImplicitComponents", at = @At("TAIL"))
-	private void colorfulPots$applyDecorationComponent(DataComponentGetter componentGetter, CallbackInfo ci) {
-		PotDecorations previousDecorations = this.colorfulPots$decorationsBeforeApply;
-		this.colorfulPots$decorationsBeforeApply = null;
-
-		if (previousDecorations != null
-			&& PotDecorations.EMPTY.equals(this.decorations)
-			&& !PotDecorations.EMPTY.equals(previousDecorations)) {
-			this.decorations = previousDecorations;
-		}
-
+	@Inject(method = "setFromItem", at = @At("TAIL"))
+	private void colorfulPots$applyDecorationComponent(ItemStack stack, CallbackInfo ci) {
 		int coating = colorfulPots$resolveCoating(
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.GOLDED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.COPPERED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.RESINED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.IRONED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
-			componentGetter.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
+			stack.getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.GOLDED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.COPPERED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.RESINED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.IRONED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
+			stack.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
 		);
 		this.colorfulPots$setExclusiveCoating(coating);
 
 		DataComponentType<PotDecorations> coatingDecorationsComponent = colorfulPots$getCoatingDecorationsComponent(coating);
-		PotDecorations coatingDecorations = coatingDecorationsComponent == null ? null : componentGetter.get(coatingDecorationsComponent);
+		PotDecorations coatingDecorations = coatingDecorationsComponent == null ? null : stack.get(coatingDecorationsComponent);
 		if (coatingDecorations != null
 			&& PotDecorations.EMPTY.equals(this.decorations)
 			&& !PotDecorations.EMPTY.equals(coatingDecorations)) {
 			this.decorations = coatingDecorations;
 		}
 
-		TypedEntityData<BlockEntityType<?>> blockEntityData = componentGetter.get(DataComponents.BLOCK_ENTITY_DATA);
-		if (blockEntityData != null
-			&& blockEntityData.type() == BlockEntityType.DECORATED_POT
-			&& PotDecorations.EMPTY.equals(this.decorations)) {
-			PotDecorations sherdsDecorations = blockEntityData.copyTagWithoutId()
-				.read("sherds", PotDecorations.CODEC, NbtOps.INSTANCE)
-				.orElse(null);
+		CustomData blockEntityData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+		if (blockEntityData != null && PotDecorations.EMPTY.equals(this.decorations)) {
+			PotDecorations sherdsDecorations = PotDecorations.load(blockEntityData.copyTag());
 			if (sherdsDecorations != null && !PotDecorations.EMPTY.equals(sherdsDecorations)) {
 				this.decorations = sherdsDecorations;
 			}

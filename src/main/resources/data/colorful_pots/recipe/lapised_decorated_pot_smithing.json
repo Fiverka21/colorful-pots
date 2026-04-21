@@ -1,7 +1,14 @@
 {
 	"type": "minecraft:smithing_transform",
-	"base": "minecraft:decorated_pot",
-	"addition": "minecraft:lapis_lazuli",
+	"template": {
+		"item": "minecraft:netherite_upgrade_smithing_template"
+	},
+	"base": {
+		"item": "minecraft:decorated_pot"
+	},
+	"addition": {
+		"item": "minecraft:lapis_lazuli"
+	},
 	"result": {
 		"id": "minecraft:decorated_pot",
 		"components": {

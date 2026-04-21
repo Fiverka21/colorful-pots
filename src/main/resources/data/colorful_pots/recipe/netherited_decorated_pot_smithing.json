@@ -1,7 +1,14 @@
 {
 	"type": "minecraft:smithing_transform",
-	"base": "minecraft:decorated_pot",
-	"addition": "minecraft:ancient_debris",
+	"template": {
+		"item": "minecraft:netherite_upgrade_smithing_template"
+	},
+	"base": {
+		"item": "minecraft:decorated_pot"
+	},
+	"addition": {
+		"item": "minecraft:netherite_ingot"
+	},
 	"result": {
 		"id": "minecraft:decorated_pot",
 		"components": {

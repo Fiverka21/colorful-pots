@@ -2,6 +2,7 @@ package com.fiverka.colorfulpots.client.mixin;
 
 import com.fiverka.colorfulpots.ColorfulPotsMod;
 import com.fiverka.colorfulpots.access.DiamondPotAccess;
+import com.fiverka.colorfulpots.component.ColorfulPotsDataComponents;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -246,6 +247,32 @@ public abstract class DecoratedPotRendererMixin {
 	}
 
 	@Unique
+	private static int colorfulPots$resolveCoatingFromComponents(DecoratedPotBlockEntity blockEntity) {
+		return colorfulPots$resolveCoating(
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.GOLDED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.COPPERED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.RESINED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.IRONED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
+		);
+	}
+
+	@Unique
+	private static int colorfulPots$resolveCoating(DecoratedPotBlockEntity blockEntity) {
+		int coating = colorfulPots$resolveCoating((DiamondPotAccess) blockEntity);
+		if (coating != COLORFUL_POTS_COATING_NONE) {
+			return coating;
+		}
+		return colorfulPots$resolveCoatingFromComponents(blockEntity);
+	}
+
+	@Unique
 	private static Material colorfulPots$getBaseMaterialByCoating(int coating) {
 		return switch (coating) {
 			case COLORFUL_POTS_COATING_DIAMOND -> COLORFUL_POTS_DIAMOND_SIDE_MATERIAL;
@@ -334,7 +361,11 @@ public abstract class DecoratedPotRendererMixin {
 		int packedOverlay,
 		CallbackInfo ci
 	) {
-		int coating = colorfulPots$resolveCoating((DiamondPotAccess) blockEntity);
+		if (blockEntity.getLevel() == null) {
+			return;
+		}
+
+		int coating = colorfulPots$resolveCoating(blockEntity);
 		if (coating == COLORFUL_POTS_COATING_NONE) {
 			return;
 		}

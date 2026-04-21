@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DecoratedPotBlockEntity.class)
 public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
@@ -415,6 +416,14 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 
 		builder.set(coatingComponent, true);
 		builder.set(coatingDecorationsComponent, this.decorations);
+	}
+
+	@Inject(method = "getUpdateTag", at = @At("RETURN"), cancellable = true)
+	private void colorfulPots$includeComponentsInUpdateTag(
+		HolderLookup.Provider registries,
+		CallbackInfoReturnable<CompoundTag> cir
+	) {
+		cir.setReturnValue(((DecoratedPotBlockEntity) (Object) this).saveWithoutMetadata(registries));
 	}
 
 	@Inject(method = "setFromItem", at = @At("TAIL"))

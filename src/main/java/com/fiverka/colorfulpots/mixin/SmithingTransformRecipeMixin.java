@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.PotDecorations;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -234,6 +235,39 @@ public abstract class SmithingTransformRecipeMixin {
 		stack.remove(ColorfulPotsDataComponents.QUARTZED_DECORATIONS);
 		stack.remove(ColorfulPotsDataComponents.LAPISED_DECORATIONS);
 		stack.remove(ColorfulPotsDataComponents.NETHERITED_DECORATIONS);
+	}
+
+	@Inject(
+		method = "matches(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;Lnet/minecraft/world/level/Level;)Z",
+		at = @At("HEAD"),
+		cancellable = true
+	)
+	private void colorfulPots$allowEmptyTemplateForPotCoatingRecipes(
+		SmithingRecipeInput input,
+		Level level,
+		CallbackInfoReturnable<Boolean> cir
+	) {
+		if (!input.template().isEmpty() || !input.base().is(Items.DECORATED_POT)) {
+			return;
+		}
+
+		ItemStack addition = input.addition();
+		if (addition.isEmpty()) {
+			return;
+		}
+
+		SmithingTransformRecipe self = (SmithingTransformRecipe) (Object) this;
+		if (!self.isBaseIngredient(input.base()) || !self.isAdditionIngredient(addition)) {
+			return;
+		}
+
+		// Restrict the bypass to our recipes by checking the configured template ingredient.
+		ItemStack netheriteTemplate = new ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+		if (!self.isTemplateIngredient(netheriteTemplate)) {
+			return;
+		}
+
+		cir.setReturnValue(true);
 	}
 
 	@Inject(

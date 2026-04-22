@@ -174,17 +174,17 @@ public abstract class SmithingTransformRecipeMixin {
 	@Unique
 	private static DataComponentType<Boolean> colorfulPots$getCoatingComponent(int coating) {
 		return switch (coating) {
-			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED;
-			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED;
-			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED;
-			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED;
-			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED;
-			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED;
-			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED;
-			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED;
-			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED;
-			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED;
-			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED;
+			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED.get();
+			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED.get();
+			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED.get();
+			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED.get();
+			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED.get();
+			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED.get();
+			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED.get();
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED.get();
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED.get();
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED.get();
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED.get();
 			default -> null;
 		};
 	}
@@ -192,49 +192,49 @@ public abstract class SmithingTransformRecipeMixin {
 	@Unique
 	private static DataComponentType<PotDecorations> colorfulPots$getCoatingDecorationsComponent(int coating) {
 		return switch (coating) {
-			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED_DECORATIONS;
-			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED_DECORATIONS;
-			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED_DECORATIONS;
-			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED_DECORATIONS;
-			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS;
-			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED_DECORATIONS;
-			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED_DECORATIONS;
-			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED_DECORATIONS;
-			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED_DECORATIONS;
-			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED_DECORATIONS;
-			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED_DECORATIONS;
+			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED_DECORATIONS.get();
 			default -> null;
 		};
 	}
 
 	@Unique
 	private static void colorfulPots$clearAllCoatings(ItemStack stack) {
-		stack.set(ColorfulPotsDataComponents.DIAMONDED, false);
-		stack.set(ColorfulPotsDataComponents.GOLDED, false);
-		stack.set(ColorfulPotsDataComponents.COPPERED, false);
-		stack.set(ColorfulPotsDataComponents.EMERALDED, false);
-		stack.set(ColorfulPotsDataComponents.AMETHYSTED, false);
-		stack.set(ColorfulPotsDataComponents.RESINED, false);
-		stack.set(ColorfulPotsDataComponents.REDSTONED, false);
-		stack.set(ColorfulPotsDataComponents.IRONED, false);
-		stack.set(ColorfulPotsDataComponents.QUARTZED, false);
-		stack.set(ColorfulPotsDataComponents.LAPISED, false);
-		stack.set(ColorfulPotsDataComponents.NETHERITED, false);
+		stack.set(ColorfulPotsDataComponents.DIAMONDED.get(), false);
+		stack.set(ColorfulPotsDataComponents.GOLDED.get(), false);
+		stack.set(ColorfulPotsDataComponents.COPPERED.get(), false);
+		stack.set(ColorfulPotsDataComponents.EMERALDED.get(), false);
+		stack.set(ColorfulPotsDataComponents.AMETHYSTED.get(), false);
+		stack.set(ColorfulPotsDataComponents.RESINED.get(), false);
+		stack.set(ColorfulPotsDataComponents.REDSTONED.get(), false);
+		stack.set(ColorfulPotsDataComponents.IRONED.get(), false);
+		stack.set(ColorfulPotsDataComponents.QUARTZED.get(), false);
+		stack.set(ColorfulPotsDataComponents.LAPISED.get(), false);
+		stack.set(ColorfulPotsDataComponents.NETHERITED.get(), false);
 	}
 
 	@Unique
 	private static void colorfulPots$clearAllCoatingDecorations(ItemStack stack) {
-		stack.remove(ColorfulPotsDataComponents.DIAMONDED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.GOLDED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.COPPERED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.EMERALDED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.RESINED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.REDSTONED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.IRONED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.QUARTZED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.LAPISED_DECORATIONS);
-		stack.remove(ColorfulPotsDataComponents.NETHERITED_DECORATIONS);
+		stack.remove(ColorfulPotsDataComponents.DIAMONDED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.GOLDED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.COPPERED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.EMERALDED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.RESINED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.REDSTONED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.IRONED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.QUARTZED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.LAPISED_DECORATIONS.get());
+		stack.remove(ColorfulPotsDataComponents.NETHERITED_DECORATIONS.get());
 	}
 
 	@Inject(
@@ -285,17 +285,17 @@ public abstract class SmithingTransformRecipeMixin {
 			return;
 		}
 
-		boolean diamonded = result.getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false);
-		boolean golded = result.getOrDefault(ColorfulPotsDataComponents.GOLDED, false);
-		boolean coppered = result.getOrDefault(ColorfulPotsDataComponents.COPPERED, false);
-		boolean emeralded = result.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false);
-		boolean amethysted = result.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false);
-		boolean resined = result.getOrDefault(ColorfulPotsDataComponents.RESINED, false);
-		boolean redstoned = result.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false);
-		boolean ironed = result.getOrDefault(ColorfulPotsDataComponents.IRONED, false);
-		boolean quartzed = result.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false);
-		boolean lapised = result.getOrDefault(ColorfulPotsDataComponents.LAPISED, false);
-		boolean netherited = result.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false);
+		boolean diamonded = result.getOrDefault(ColorfulPotsDataComponents.DIAMONDED.get(), false);
+		boolean golded = result.getOrDefault(ColorfulPotsDataComponents.GOLDED.get(), false);
+		boolean coppered = result.getOrDefault(ColorfulPotsDataComponents.COPPERED.get(), false);
+		boolean emeralded = result.getOrDefault(ColorfulPotsDataComponents.EMERALDED.get(), false);
+		boolean amethysted = result.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED.get(), false);
+		boolean resined = result.getOrDefault(ColorfulPotsDataComponents.RESINED.get(), false);
+		boolean redstoned = result.getOrDefault(ColorfulPotsDataComponents.REDSTONED.get(), false);
+		boolean ironed = result.getOrDefault(ColorfulPotsDataComponents.IRONED.get(), false);
+		boolean quartzed = result.getOrDefault(ColorfulPotsDataComponents.QUARTZED.get(), false);
+		boolean lapised = result.getOrDefault(ColorfulPotsDataComponents.LAPISED.get(), false);
+		boolean netherited = result.getOrDefault(ColorfulPotsDataComponents.NETHERITED.get(), false);
 
 		int coatingCount = colorfulPots$coatingCount(
 			diamonded,

@@ -86,17 +86,17 @@ public abstract class ItemMixin {
 	@Unique
 	private static int colorfulPots$resolveCoatingFromComponents(ItemStack stack) {
 		return colorfulPots$resolveCoating(
-			stack.getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.GOLDED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.COPPERED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.RESINED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.IRONED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
+			stack.getOrDefault(ColorfulPotsDataComponents.DIAMONDED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.GOLDED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.COPPERED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.EMERALDED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.RESINED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.REDSTONED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.IRONED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.QUARTZED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.LAPISED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.NETHERITED.get(), false)
 		);
 	}
 

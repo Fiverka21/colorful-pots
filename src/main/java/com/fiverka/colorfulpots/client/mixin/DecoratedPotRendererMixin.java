@@ -249,17 +249,17 @@ public abstract class DecoratedPotRendererMixin {
 	@Unique
 	private static int colorfulPots$resolveCoatingFromComponents(DecoratedPotBlockEntity blockEntity) {
 		return colorfulPots$resolveCoating(
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.GOLDED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.COPPERED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.RESINED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.IRONED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
-			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.DIAMONDED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.GOLDED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.COPPERED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.EMERALDED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.AMETHYSTED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.RESINED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.REDSTONED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.IRONED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.QUARTZED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.LAPISED.get(), false),
+			blockEntity.components().getOrDefault(ColorfulPotsDataComponents.NETHERITED.get(), false)
 		);
 	}
 

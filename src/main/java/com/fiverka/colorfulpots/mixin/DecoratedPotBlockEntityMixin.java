@@ -315,17 +315,17 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	@Unique
 	private static DataComponentType<Boolean> colorfulPots$getCoatingComponent(int coating) {
 		return switch (coating) {
-			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED;
-			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED;
-			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED;
-			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED;
-			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED;
-			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED;
-			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED;
-			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED;
-			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED;
-			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED;
-			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED;
+			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED.get();
+			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED.get();
+			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED.get();
+			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED.get();
+			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED.get();
+			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED.get();
+			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED.get();
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED.get();
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED.get();
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED.get();
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED.get();
 			default -> null;
 		};
 	}
@@ -333,17 +333,17 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	@Unique
 	private static DataComponentType<PotDecorations> colorfulPots$getCoatingDecorationsComponent(int coating) {
 		return switch (coating) {
-			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED_DECORATIONS;
-			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED_DECORATIONS;
-			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED_DECORATIONS;
-			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED_DECORATIONS;
-			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS;
-			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED_DECORATIONS;
-			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED_DECORATIONS;
-			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED_DECORATIONS;
-			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED_DECORATIONS;
-			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED_DECORATIONS;
-			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED_DECORATIONS;
+			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_GOLD -> ColorfulPotsDataComponents.GOLDED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_COPPER -> ColorfulPotsDataComponents.COPPERED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_EMERALD -> ColorfulPotsDataComponents.EMERALDED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_AMETHYST -> ColorfulPotsDataComponents.AMETHYSTED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_RESIN -> ColorfulPotsDataComponents.RESINED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_REDSTONE -> ColorfulPotsDataComponents.REDSTONED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_IRON -> ColorfulPotsDataComponents.IRONED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_QUARTZ -> ColorfulPotsDataComponents.QUARTZED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_LAPIS -> ColorfulPotsDataComponents.LAPISED_DECORATIONS.get();
+			case COLORFUL_POTS_COATING_NETHERITE -> ColorfulPotsDataComponents.NETHERITED_DECORATIONS.get();
 			default -> null;
 		};
 	}
@@ -429,17 +429,17 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	@Inject(method = "setFromItem", at = @At("TAIL"))
 	private void colorfulPots$applyDecorationComponent(ItemStack stack, CallbackInfo ci) {
 		int coating = colorfulPots$resolveCoating(
-			stack.getOrDefault(ColorfulPotsDataComponents.DIAMONDED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.GOLDED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.COPPERED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.EMERALDED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.RESINED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.REDSTONED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.IRONED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.QUARTZED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.LAPISED, false),
-			stack.getOrDefault(ColorfulPotsDataComponents.NETHERITED, false)
+			stack.getOrDefault(ColorfulPotsDataComponents.DIAMONDED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.GOLDED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.COPPERED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.EMERALDED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.RESINED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.REDSTONED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.IRONED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.QUARTZED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.LAPISED.get(), false),
+			stack.getOrDefault(ColorfulPotsDataComponents.NETHERITED.get(), false)
 		);
 		this.colorfulPots$setExclusiveCoating(coating);
 

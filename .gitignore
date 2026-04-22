@@ -2,6 +2,7 @@
 .gradle-home/
 build/
 run/
+runs/
 out/
 
 # IDE

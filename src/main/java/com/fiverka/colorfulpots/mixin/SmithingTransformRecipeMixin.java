@@ -6,10 +6,8 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.PotDecorations;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -172,6 +170,45 @@ public abstract class SmithingTransformRecipeMixin {
 	}
 
 	@Unique
+	private static int colorfulPots$resolveCoatingFromAddition(ItemStack addition) {
+		if (addition.is(Items.DIAMOND)) {
+			return COLORFUL_POTS_COATING_DIAMOND;
+		}
+		if (addition.is(Items.GOLD_INGOT)) {
+			return COLORFUL_POTS_COATING_GOLD;
+		}
+		if (addition.is(Items.COPPER_INGOT)) {
+			return COLORFUL_POTS_COATING_COPPER;
+		}
+		if (addition.is(Items.EMERALD)) {
+			return COLORFUL_POTS_COATING_EMERALD;
+		}
+		if (addition.is(Items.AMETHYST_SHARD)) {
+			return COLORFUL_POTS_COATING_AMETHYST;
+		}
+		if (addition.is(Items.RESIN_CLUMP) || addition.is(Items.RESIN_BRICK)) {
+			return COLORFUL_POTS_COATING_RESIN;
+		}
+		if (addition.is(Items.REDSTONE)) {
+			return COLORFUL_POTS_COATING_REDSTONE;
+		}
+		if (addition.is(Items.IRON_INGOT)) {
+			return COLORFUL_POTS_COATING_IRON;
+		}
+		if (addition.is(Items.QUARTZ)) {
+			return COLORFUL_POTS_COATING_QUARTZ;
+		}
+		if (addition.is(Items.LAPIS_LAZULI)) {
+			return COLORFUL_POTS_COATING_LAPIS;
+		}
+		if (addition.is(Items.NETHERITE_INGOT)) {
+			return COLORFUL_POTS_COATING_NETHERITE;
+		}
+
+		return COLORFUL_POTS_COATING_NONE;
+	}
+
+	@Unique
 	private static DataComponentType<Boolean> colorfulPots$getCoatingComponent(int coating) {
 		return switch (coating) {
 			case COLORFUL_POTS_COATING_DIAMOND -> ColorfulPotsDataComponents.DIAMONDED.get();
@@ -238,40 +275,7 @@ public abstract class SmithingTransformRecipeMixin {
 	}
 
 	@Inject(
-		method = "matches(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;Lnet/minecraft/world/level/Level;)Z",
-		at = @At("HEAD"),
-		cancellable = true
-	)
-	private void colorfulPots$allowEmptyTemplateForPotCoatingRecipes(
-		SmithingRecipeInput input,
-		Level level,
-		CallbackInfoReturnable<Boolean> cir
-	) {
-		if (!input.template().isEmpty() || !input.base().is(Items.DECORATED_POT)) {
-			return;
-		}
-
-		ItemStack addition = input.addition();
-		if (addition.isEmpty()) {
-			return;
-		}
-
-		SmithingTransformRecipe self = (SmithingTransformRecipe) (Object) this;
-		if (!self.isBaseIngredient(input.base()) || !self.isAdditionIngredient(addition)) {
-			return;
-		}
-
-		// Restrict the bypass to our recipes by checking the configured template ingredient.
-		ItemStack netheriteTemplate = new ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
-		if (!self.isTemplateIngredient(netheriteTemplate)) {
-			return;
-		}
-
-		cir.setReturnValue(true);
-	}
-
-	@Inject(
-		method = "assemble(Lnet/minecraft/world/item/crafting/SmithingRecipeInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;",
+		method = "assemble",
 		at = @At("RETURN"),
 		cancellable = true
 	)
@@ -297,36 +301,39 @@ public abstract class SmithingTransformRecipeMixin {
 		boolean lapised = result.getOrDefault(ColorfulPotsDataComponents.LAPISED.get(), false);
 		boolean netherited = result.getOrDefault(ColorfulPotsDataComponents.NETHERITED.get(), false);
 
-		int coatingCount = colorfulPots$coatingCount(
-			diamonded,
-			golded,
-			coppered,
-			emeralded,
-			amethysted,
-			resined,
-			redstoned,
-			ironed,
-			quartzed,
-			lapised,
-			netherited
-		);
-		if (coatingCount == 0) {
-			return;
-		}
+		int coating = colorfulPots$resolveCoatingFromAddition(input.addition());
+		if (coating == COLORFUL_POTS_COATING_NONE) {
+			int coatingCount = colorfulPots$coatingCount(
+				diamonded,
+				golded,
+				coppered,
+				emeralded,
+				amethysted,
+				resined,
+				redstoned,
+				ironed,
+				quartzed,
+				lapised,
+				netherited
+			);
+			if (coatingCount == 0) {
+				return;
+			}
 
-		int coating = colorfulPots$resolveCoating(
-			diamonded,
-			golded,
-			coppered,
-			emeralded,
-			amethysted,
-			resined,
-			redstoned,
-			ironed,
-			quartzed,
-			lapised,
-			netherited
-		);
+			coating = colorfulPots$resolveCoating(
+				diamonded,
+				golded,
+				coppered,
+				emeralded,
+				amethysted,
+				resined,
+				redstoned,
+				ironed,
+				quartzed,
+				lapised,
+				netherited
+			);
+		}
 		colorfulPots$clearAllCoatings(result);
 		colorfulPots$clearAllCoatingDecorations(result);
 
@@ -356,14 +363,8 @@ public abstract class SmithingTransformRecipeMixin {
 			return decorations;
 		}
 
-		CustomData blockEntityData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-		if (blockEntityData != null) {
-			PotDecorations sherdsDecorations = PotDecorations.load(blockEntityData.copyTag());
-			if (!PotDecorations.EMPTY.equals(sherdsDecorations)) {
-				return sherdsDecorations;
-			}
-		}
-
+		// Legacy tag support removed for 1.21.11 compatibility
+		// The new data component system should handle all cases
 		return decorations;
 	}
 }

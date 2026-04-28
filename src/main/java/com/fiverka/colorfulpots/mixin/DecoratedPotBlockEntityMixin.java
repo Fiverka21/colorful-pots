@@ -3,14 +3,19 @@ package com.fiverka.colorfulpots.mixin;
 import com.fiverka.colorfulpots.access.DiamondPotAccess;
 import com.fiverka.colorfulpots.component.ColorfulPotsDataComponents;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.block.entity.PotDecorations;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -349,7 +354,7 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 	}
 
 	@Inject(method = "saveAdditional", at = @At("TAIL"))
-	private void colorfulPots$saveDecorationState(CompoundTag output, HolderLookup.Provider registries, CallbackInfo ci) {
+	private void colorfulPots$saveDecorationState(ValueOutput output, CallbackInfo ci) {
 		int coating = this.colorfulPots$getActiveCoatingFromState();
 		if (coating == COLORFUL_POTS_COATING_NONE) {
 			return;
@@ -364,25 +369,36 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		output.putBoolean(coatingTag, true);
 		if (!PotDecorations.EMPTY.equals(this.decorations)) {
 			CompoundTag decorationsData = new CompoundTag();
-			this.decorations.save(decorationsData);
-			output.put(decorationsTag, decorationsData);
+			this.decorations.front().ifPresent(item -> {
+				decorationsData.putString("front", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString());
+			});
+			this.decorations.back().ifPresent(item -> {
+				decorationsData.putString("back", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString());
+			});
+			this.decorations.left().ifPresent(item -> {
+				decorationsData.putString("left", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString());
+			});
+			this.decorations.right().ifPresent(item -> {
+				decorationsData.putString("right", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString());
+			});
+			output.store(decorationsTag, CompoundTag.CODEC, decorationsData);
 		}
 	}
 
 	@Inject(method = "loadAdditional", at = @At("TAIL"))
-	private void colorfulPots$loadDecorationState(CompoundTag input, HolderLookup.Provider registries, CallbackInfo ci) {
+	private void colorfulPots$loadDecorationState(ValueInput input, CallbackInfo ci) {
 		int coating = colorfulPots$resolveCoating(
-			input.getBoolean(COLORFUL_POTS_DIAMONDED_TAG),
-			input.getBoolean(COLORFUL_POTS_GOLDED_TAG),
-			input.getBoolean(COLORFUL_POTS_COPPERED_TAG),
-			input.getBoolean(COLORFUL_POTS_EMERALDED_TAG),
-			input.getBoolean(COLORFUL_POTS_AMETHYSTED_TAG),
-			input.getBoolean(COLORFUL_POTS_RESINED_TAG),
-			input.getBoolean(COLORFUL_POTS_REDSTONED_TAG),
-			input.getBoolean(COLORFUL_POTS_IRONED_TAG),
-			input.getBoolean(COLORFUL_POTS_QUARTZED_TAG),
-			input.getBoolean(COLORFUL_POTS_LAPISED_TAG),
-			input.getBoolean(COLORFUL_POTS_NETHERITED_TAG)
+			input.getBooleanOr(COLORFUL_POTS_DIAMONDED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_GOLDED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_COPPERED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_EMERALDED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_AMETHYSTED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_RESINED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_REDSTONED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_IRONED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_QUARTZED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_LAPISED_TAG, false),
+			input.getBooleanOr(COLORFUL_POTS_NETHERITED_TAG, false)
 		);
 		this.colorfulPots$setExclusiveCoating(coating);
 
@@ -391,14 +407,35 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		}
 
 		String decorationsTag = colorfulPots$getCoatingDecorationsTag(coating);
-		if (decorationsTag == null || !input.contains(decorationsTag, 10)) {
+		if (decorationsTag == null) {
 			return;
 		}
 
-		PotDecorations loadedDecorations = PotDecorations.load(input.getCompound(decorationsTag));
-		if (!PotDecorations.EMPTY.equals(loadedDecorations)) {
-			this.decorations = loadedDecorations;
-		}
+		input.read(decorationsTag, CompoundTag.CODEC).ifPresent(decorationsData -> {
+			if (!decorationsData.isEmpty()) {
+				net.minecraft.world.item.Item front = decorationsData.getString("front").flatMap(id ->
+					net.minecraft.core.registries.BuiltInRegistries.ITEM.getOptional(Identifier.parse(id))
+				).orElse(null);
+				net.minecraft.world.item.Item back = decorationsData.getString("back").flatMap(id ->
+					net.minecraft.core.registries.BuiltInRegistries.ITEM.getOptional(Identifier.parse(id))
+				).orElse(null);
+				net.minecraft.world.item.Item left = decorationsData.getString("left").flatMap(id ->
+					net.minecraft.core.registries.BuiltInRegistries.ITEM.getOptional(Identifier.parse(id))
+				).orElse(null);
+				net.minecraft.world.item.Item right = decorationsData.getString("right").flatMap(id ->
+					net.minecraft.core.registries.BuiltInRegistries.ITEM.getOptional(Identifier.parse(id))
+				).orElse(null);
+
+				if (front != null || back != null || left != null || right != null) {
+					this.decorations = new PotDecorations(
+						front != null ? front : Items.AIR,
+						back != null ? back : Items.AIR,
+						left != null ? left : Items.AIR,
+						right != null ? right : Items.AIR
+					);
+				}
+			}
+		});
 	}
 
 	@Inject(method = "collectImplicitComponents", at = @At("TAIL"))
@@ -426,7 +463,7 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 		cir.setReturnValue(((DecoratedPotBlockEntity) (Object) this).saveWithoutMetadata(registries));
 	}
 
-	@Inject(method = "setFromItem", at = @At("TAIL"))
+	@Inject(method = "setTheItem", at = @At("TAIL"))
 	private void colorfulPots$applyDecorationComponent(ItemStack stack, CallbackInfo ci) {
 		int coating = colorfulPots$resolveCoating(
 			stack.getOrDefault(ColorfulPotsDataComponents.DIAMONDED.get(), false),
@@ -451,12 +488,33 @@ public abstract class DecoratedPotBlockEntityMixin implements DiamondPotAccess {
 			this.decorations = coatingDecorations;
 		}
 
-		CustomData blockEntityData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-		if (blockEntityData != null && PotDecorations.EMPTY.equals(this.decorations)) {
-			PotDecorations sherdsDecorations = PotDecorations.load(blockEntityData.copyTag());
-			if (sherdsDecorations != null && !PotDecorations.EMPTY.equals(sherdsDecorations)) {
-				this.decorations = sherdsDecorations;
-			}
+		// Legacy tag support removed for 1.21.11 compatibility
+		// The new data component system should handle all cases
+	}
+
+	@Inject(method = "applyImplicitComponents", at = @At("TAIL"))
+	private void colorfulPots$applyCoatingComponents(DataComponentGetter components, CallbackInfo ci) {
+		int coating = colorfulPots$resolveCoating(
+			components.getOrDefault(ColorfulPotsDataComponents.DIAMONDED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.GOLDED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.COPPERED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.EMERALDED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.AMETHYSTED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.RESINED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.REDSTONED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.IRONED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.QUARTZED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.LAPISED.get(), false),
+			components.getOrDefault(ColorfulPotsDataComponents.NETHERITED.get(), false)
+		);
+		this.colorfulPots$setExclusiveCoating(coating);
+
+		DataComponentType<PotDecorations> coatingDecorationsComponent = colorfulPots$getCoatingDecorationsComponent(coating);
+		PotDecorations coatingDecorations = coatingDecorationsComponent == null ? null : components.get(coatingDecorationsComponent);
+		if (coatingDecorations != null
+			&& PotDecorations.EMPTY.equals(this.decorations)
+			&& !PotDecorations.EMPTY.equals(coatingDecorations)) {
+			this.decorations = coatingDecorations;
 		}
 	}
 

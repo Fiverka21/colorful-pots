@@ -1,7 +1,7 @@
 package com.fiverka.colorfulpots.mixin;
 
 import com.fiverka.colorfulpots.component.ColorfulPotsDataComponents;
-import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -59,7 +60,8 @@ public abstract class ItemMixin {
 	private void colorfulPots$appendCurrentCoatingTooltip(
 		ItemStack stack,
 		Item.TooltipContext context,
-		List<Component> tooltipComponents,
+		TooltipDisplay display,
+		Consumer<Component> tooltipComponents,
 		TooltipFlag flag,
 		CallbackInfo ci
 	) {
@@ -80,7 +82,7 @@ public abstract class ItemMixin {
 			return;
 		}
 
-		tooltipComponents.add(Component.literal(attributeName).withStyle(ChatFormatting.GRAY));
+		tooltipComponents.accept(Component.literal(attributeName).withStyle(ChatFormatting.GRAY));
 	}
 
 	@Unique
@@ -102,25 +104,9 @@ public abstract class ItemMixin {
 
 	@Unique
 	private static int colorfulPots$resolveCoatingFromLegacyTag(ItemStack stack) {
-		CustomData blockEntityData = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-		if (blockEntityData == null) {
-			return COLORFUL_POTS_COATING_NONE;
-		}
-
-		CompoundTag tag = blockEntityData.copyTag();
-		return colorfulPots$resolveCoating(
-			tag.getBoolean("colorful_pots_diamonded"),
-			tag.getBoolean("colorful_pots_golded"),
-			tag.getBoolean("colorful_pots_coppered"),
-			tag.getBoolean("colorful_pots_emeralded"),
-			tag.getBoolean("colorful_pots_amethysted"),
-			tag.getBoolean("colorful_pots_resined"),
-			tag.getBoolean("colorful_pots_redstoned"),
-			tag.getBoolean("colorful_pots_ironed"),
-			tag.getBoolean("colorful_pots_quartzed"),
-			tag.getBoolean("colorful_pots_lapised"),
-			tag.getBoolean("colorful_pots_netherited")
-		);
+		// Legacy tag support removed for 1.21.11 compatibility
+		// The new data component system should handle all cases
+		return COLORFUL_POTS_COATING_NONE;
 	}
 
 	@Unique
